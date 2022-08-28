@@ -14,8 +14,11 @@ const data = {
 
 const Post = () => {
     return (
-        <div className='bg-white w-8/12 mt-5 rounded
-        border max-w-[700px]
+        <div className='bg-white 
+        mx-4
+        lg:w-8/12 mt-5 rounded
+        border 
+        lg:max-w-[700px]
         border-gray-300
         hover:border-gray-700'>
             <div className='flex'>
