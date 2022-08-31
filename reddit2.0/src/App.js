@@ -1,14 +1,26 @@
 import Content from "./componets/Content";
 import Navbar from "./componets/navbar/Navbar";
-import { BrowseRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SubmitPost from "./componets/SubmitPost";
+
 
 
 function App() {
   return (
-    <>
+    <Router>
+    
     <Navbar/>
-    <Content />
-    </>
+      <Routes>
+      <Route path="/" element= {
+        <Content />
+      } />
+
+      <Route path="/submit" element= {
+        <SubmitPost />
+      } />
+
+    </Routes>
+    </Router>
   );
 }
 

@@ -1,12 +1,24 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ChevronDownIcon, HomeIcon } from '@heroicons/react/24/solid'
 import { MagnifyingGlassIcon, BellIcon, PlusIcon, SparklesIcon, VideoCameraIcon, GlobeAltIcon, ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/outline'
 import logo from "../../assets/reddit-logo.png"
 import LogIn from '../LogIn'
+import { AuthContext } from '../../context/AuthReducer'
+import SingIn from '../SingIn'
 
 const Navbar = () => {
-    const [isLogged, setIslogged] = useState(false)
     const [showLogIn, setShowLogIn] = useState(false)
+    const [showSingUp, setShowSingUp] = useState(false)
+    const { currentUser } = useContext(AuthContext)
+    const [isLogged, setIslogged] = useState(false)
+
+
+    useState(() => {
+        if (currentUser) {
+            setIslogged(true)
+        }
+    }, [currentUser])
+    console.log(currentUser)
 
 
     return (
@@ -50,7 +62,7 @@ const Navbar = () => {
                         <div className='flex items-center border border-blue-700 w-24 justify-center rounded-full ml-5' onClick={() => setShowLogIn(!showLogIn)}>
                             <button><strong className='text-blue-600'>Log In</strong></button>
                         </div>
-                        <div className='flex items-center border border-blue-600 w-24 justify-center rounded-full ml-3 bg-blue-600'>
+                        <div className='flex items-center border border-blue-600 w-24 justify-center rounded-full ml-3 bg-blue-600' onClick={() => setShowSingUp(!showSingUp)}>
                             <button><strong className='text-white'>Sing Up</strong></button>
                         </div>
                     </>
@@ -61,6 +73,9 @@ const Navbar = () => {
             </div>
             {showLogIn &&
                 <LogIn setLogIn={setShowLogIn} />
+            }
+            {showSingUp &&
+                <SingIn setLogIn={setIslogged} setShowSingUp={setShowSingUp} />
             }
         </>
     )

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebasecfg';
+import { AuthContext } from '../context/AuthReducer';
 
-const LogIn = ({ setLogIn }) => {
+const LogIn = ({ setLogIn, setShowSingUp }) => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
+    const { dispatch } = useContext(AuthContext)
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -19,7 +22,8 @@ const LogIn = ({ setLogIn }) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(user)
+                setLogIn(true)
+                dispatch({ type: "LOGIN", payload: user })
             })
             .catch((error) => {
                 const errorCode = error.code;
