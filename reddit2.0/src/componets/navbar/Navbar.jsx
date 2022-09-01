@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon, BellIcon, PlusIcon, SparklesIcon, VideoCameraIcon,
 import logo from "../../assets/reddit-logo.png"
 import LogIn from '../LogIn'
 import { AuthContext } from '../../context/AuthReducer'
-import SingIn from '../SingIn'
+import SignIn from '../SignIn'
 
 const Navbar = () => {
     const [showLogIn, setShowLogIn] = useState(false)
@@ -63,7 +63,7 @@ const Navbar = () => {
                             <button><strong className='text-blue-600'>Log In</strong></button>
                         </div>
                         <div className='flex items-center border border-blue-600 w-24 justify-center rounded-full ml-3 bg-blue-600' onClick={() => setShowSingUp(!showSingUp)}>
-                            <button><strong className='text-white'>Sing Up</strong></button>
+                            <button><strong className='text-white'>Sign Up</strong></button>
                         </div>
                     </>
 
@@ -75,7 +75,7 @@ const Navbar = () => {
                 <LogIn setLogIn={setShowLogIn} />
             }
             {showSingUp &&
-                <SingIn setLogIn={setIslogged} setShowSingUp={setShowSingUp} />
+                <SignIn setLogIn={setIslogged} setShowSingUp={setShowSingUp} />
             }
         </>
     )

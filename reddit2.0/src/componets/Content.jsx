@@ -5,7 +5,6 @@ import { collection, doc, getDocs, addDoc } from 'firebase/firestore'
 import AddPost from './AddPost';
 import { auth } from '../firebasecfg';
 import { AuthContext } from '../context/AuthReducer';
-import SingIn from './SingIn';
 
 const Content = () => {
     const [user, setData] = useState([]);

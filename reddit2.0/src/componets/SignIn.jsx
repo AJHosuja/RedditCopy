@@ -14,7 +14,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 
 
-const SingIn = ({ setLogIn, setShowSingUp }) => {
+const SignIn = ({ setLogIn, setShowSingUp }) => {
     const [file, setFile] = useState("");
     const [data, setData] = useState({});
     const [per, setPerc] = useState(null);
@@ -160,4 +160,4 @@ const SingIn = ({ setLogIn, setShowSingUp }) => {
     );
 };
 
-export default SingIn;
+export default SignIn;

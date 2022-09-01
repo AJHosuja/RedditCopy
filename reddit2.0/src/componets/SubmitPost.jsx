@@ -3,6 +3,8 @@ import { Bars3Icon, LinkIcon } from '@heroicons/react/24/solid'
 import React, { useState } from 'react'
 import logo from "./../assets/Reddit-Emblem.png"
 
+
+
 const values = [
     { id: 1, text: "Post", icon: Bars3Icon },
     { id: 2, text: "Images & video", icon: PhotoIcon },
@@ -14,12 +16,13 @@ const values = [
 
 const SubmitPost = () => {
 
-    const [activeId, setActiveId] = useState();
+    const [activeId, setActiveId] = useState(1);
+    const [titleLength, setTitleLength] = useState(0);
 
     return (
         <div className='flex flex-row justify-center'>
 
-            <div className='lg:w-[700px] mt-10'>
+            <div className='lg:w-[740px] mt-10 sm: w-full'>
 
                 <div className='flex flex-row justify-between'>
                     <h1>Create a post</h1>
@@ -50,12 +53,29 @@ const SubmitPost = () => {
                             ))}
                         </div>
                     </div>
-                    <div className='m-4'>
-                        <input className='w-full border rounded h-10 pl-4' placeholder='Title' />
-                    </div>
-                    <div className='m-4'>
-                        <text>das</text>
-                    </div>
+
+                    <form>
+
+                        <div className='flex m-4 border rounded h-10 justify-center items-center hover:border-black focus-within:border-black '>
+                            <input className='p-4 w-full h-full rounded focus:outline-none focus:border-black ' placeholder='Title' maxLength={300} onChange={(e) => setTitleLength(e.target.value.length)} />
+                            <span className='pr-4 text-xs'>{titleLength}{"/300"}</span>
+                        </div>
+
+
+
+                        <div className='m-4'>
+                            <textarea
+                                rows={"7"}
+                                className='w-full border rounded focus:outline-none focus:border-black p-2'
+                                placeholder='Text (optional)'
+                            ></textarea>
+                        </div>
+                        <div className='flex flex-row-reverse mr-4
+                        pb-4'>
+                            <button className='bg-blue-600 text-white h-8 w-16 rounded-full font-medium'>Post</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
 
