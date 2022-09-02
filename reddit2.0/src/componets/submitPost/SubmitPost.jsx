@@ -1,7 +1,10 @@
 import { MicrophoneIcon, PhotoIcon, ChartBarIcon } from '@heroicons/react/24/outline'
 import { Bars3Icon, LinkIcon } from '@heroicons/react/24/solid'
 import React, { useState } from 'react'
-import logo from "./../assets/Reddit-Emblem.png"
+import logo from "./../../assets/Reddit-Emblem.png"
+import SubmitImage from './SubmitImage';
+import SubmitPostLink from './SubmitPostLink';
+import SubmitPostPost from './SubmitPostPost';
 
 
 
@@ -53,29 +56,15 @@ const SubmitPost = () => {
                             ))}
                         </div>
                     </div>
-
-                    <form>
-
-                        <div className='flex m-4 border rounded h-10 justify-center items-center hover:border-black focus-within:border-black '>
-                            <input className='p-4 w-full h-full rounded focus:outline-none focus:border-black ' placeholder='Title' maxLength={300} onChange={(e) => setTitleLength(e.target.value.length)} />
-                            <span className='pr-4 text-xs'>{titleLength}{"/300"}</span>
-                        </div>
-
-
-
-                        <div className='m-4'>
-                            <textarea
-                                rows={"7"}
-                                className='w-full border rounded focus:outline-none focus:border-black p-2'
-                                placeholder='Text (optional)'
-                            ></textarea>
-                        </div>
-                        <div className='flex flex-row-reverse mr-4
-                        pb-4'>
-                            <button className='bg-blue-600 text-white h-8 w-16 rounded-full font-medium'>Post</button>
-                        </div>
-                    </form>
-
+                    {activeId === 1 &&
+                        <SubmitPostPost />
+                    }
+                    {activeId === 2 &&
+                        <SubmitImage />
+                    }
+                    {activeId === 3 &&
+                        <SubmitPostLink />
+                    }
                 </div>
             </div>
 

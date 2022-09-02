@@ -5,6 +5,7 @@ import logo from "../../assets/reddit-logo.png"
 import LogIn from '../LogIn'
 import { AuthContext } from '../../context/AuthReducer'
 import SignIn from '../SignIn'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
     const [showLogIn, setShowLogIn] = useState(false)
@@ -18,15 +19,15 @@ const Navbar = () => {
             setIslogged(true)
         }
     }, [currentUser])
-    console.log(currentUser)
 
 
     return (
         <>
             <div className='sticky top-0 z-10 flex px-4 py-2 shadow-lg bg-white'>
                 <div className='relative h-10 w-24 flex-shrink-0 cursor-pointer '>
-                    <img src={logo}
-                    />
+                    <Link to={"/"}>
+                        <img src={logo} />
+                    </Link>
                 </div>
 
                 <div className='mx-7 flex items-center xl:min-w-[300px]'>
@@ -72,7 +73,7 @@ const Navbar = () => {
                 </div>
             </div>
             {showLogIn &&
-                <LogIn setLogIn={setShowLogIn} />
+                <LogIn setLogIn={setIslogged} setShowLogIn={setShowLogIn} />
             }
             {showSingUp &&
                 <SignIn setLogIn={setIslogged} setShowSingUp={setShowSingUp} />

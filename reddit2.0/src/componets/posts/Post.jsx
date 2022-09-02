@@ -1,6 +1,11 @@
 import React from 'react'
 import { BeakerIcon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import { ArrowUpRightIcon, BookmarkIcon, ChatBubbleLeftIcon, ChevronUpIcon, EllipsisHorizontalIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { collection, doc, getDocs, addDoc, query, orderBy, onSnapshot, where, getDoc } from 'firebase/firestore'
+import { db } from '../../firebasecfg';
+import { Link } from 'react-router-dom'
 
 const data = {
     id: 1,
@@ -12,7 +17,35 @@ const data = {
     upVotes: 120,
 }
 
-const Post = () => {
+const Post = ({ postData }) => {
+
+    const [subRedditData, setSubRedditData] = useState([]);
+    const [userName, setUserName] = useState("");
+
+    const getSubRedditName = async () => {
+        const data = await getDoc(doc(db, "subreddits", postData.subredditID));
+        setSubRedditData({
+            imgUrl: data._document.data.value.mapValue.fields.imageUrl.stringValue,
+            name: data._document.data.value.mapValue.fields.subredditName.stringValue
+        })
+
+        return data;
+    }
+
+    const getUserName = async () => {
+
+        const data = await getDoc(doc(db, "users", postData.userID));
+        setUserName(data._document.data.value.mapValue.fields.Username.stringValue)
+
+        return data;
+    }
+
+
+    useEffect(() => {
+        getSubRedditName()
+        getUserName()
+    }, [])
+
     return (
         <div className='bg-white 
         mx-4
@@ -29,14 +62,15 @@ const Post = () => {
                 </div>
                 <div>
                     <div>
-                        <div className='text-xs mt-2 pl-3'>
-                            <p><strong>r/{data.subreddit}</strong> posted by u/{data.username}</p>
+                        <div className='flex text-xs mt-2 pl-3 space-x-2 items-center'>
+                            <img src={subRedditData.imgUrl} className='w-6 rounded-full' />
+                            <p><strong>r/{subRedditData.name}</strong> posted by u/{subRedditData.username}</p>
                         </div>
                         <div className='mt-2 pl-3'>
-                            <strong>{data.title}</strong>
+                            <strong>{postData.title}</strong>
                         </div>
                         <div className='mt-2 pl-3 text-gray-600 text-[14px]'>
-                            <p>{data.text}</p>
+                            <p>{postData.text}</p>
                         </div>
                         <div className='flex my-3 ml-3 items-center text-gray-500 text-sm'>
                             <ChatBubbleLeftIcon className='h-5' />

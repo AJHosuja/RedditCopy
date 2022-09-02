@@ -1,7 +1,7 @@
 import Content from "./componets/Content";
 import Navbar from "./componets/navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SubmitPost from "./componets/SubmitPost";
+import SubmitPost from "./componets/submitPost/SubmitPost";
 
 
 

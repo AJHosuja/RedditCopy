@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebasecfg';
 import { AuthContext } from '../context/AuthReducer';
 
-const LogIn = ({ setLogIn, setShowSingUp }) => {
+const LogIn = ({ setLogIn, setShowLogIn }) => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -22,8 +22,10 @@ const LogIn = ({ setLogIn, setShowSingUp }) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
+                console.log(userCredential)
                 setLogIn(true)
                 dispatch({ type: "LOGIN", payload: user })
+                setShowLogIn(false)
             })
             .catch((error) => {
                 const errorCode = error.code;

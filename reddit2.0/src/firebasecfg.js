@@ -4,13 +4,13 @@ import { getAuth } from "firebase/auth"
 import { getStorage } from "firebase/storage"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB-Amz_Zjt9UskmsG3KTAWM0p238gNpzfQ",
-  authDomain: "redditcopy-89063.firebaseapp.com",
-  projectId: "redditcopy-89063",
-  storageBucket: "redditcopy-89063.appspot.com",
-  messagingSenderId: "286854896908",
-  appId: "1:286854896908:web:7d5c2924e0e8775b05fd29",
-  measurementId: "G-J38BZ9ZRV2"
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  messagingSenderId: process.env.REACT_APP_STORAGE_BUCKET,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
