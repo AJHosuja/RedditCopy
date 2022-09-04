@@ -4,14 +4,9 @@ import { AuthContext } from '../../context/AuthReducer';
 import { db } from '../../firebasecfg';
 
 const SubmitPostPost = () => {
-    const [titleLength, setTitleLength] = useState(0);
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const { currentUser } = useContext(AuthContext)
-
-    useEffect(() => {
-    }, [currentUser])
-
 
     const addPost = async (e) => {
         e.preventDefault();
@@ -20,7 +15,7 @@ const SubmitPostPost = () => {
                 text: text,
                 title: title,
                 subredditID: "3WOhjgCbalfuvJQT8jLi",
-                type: "textWithUrl",
+                type: "textWithTitle",
                 userID: currentUser.uid,
                 imageurl: "",
                 timestamp: serverTimestamp(),

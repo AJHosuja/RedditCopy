@@ -61,7 +61,7 @@ const Content = () => {
                         <PostWithImage key={index} postData={postData} />
                     )
                 }
-                if (postData.type === "textWithUrl") {
+                if (postData.type === "textWithTitle") {
                     return (
                         <Post key={index} postData={postData} />
                     )

@@ -22,6 +22,7 @@ const PostWithImage = ({ postData }) => {
     const [userName, setUserName] = useState("");
 
 
+
     const getSubRedditName = async () => {
         const data = await getDoc(doc(db, "subreddits", postData.subredditID));
         setSubRedditData({
