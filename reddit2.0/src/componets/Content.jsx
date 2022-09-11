@@ -24,22 +24,15 @@ const Content = () => {
     }, [currentUser, AuthContext])
 
     useEffect(() => {
-        const q = query(collection(db, "posts"), orderBy("timestamp", "desc"))
-
-
+        const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
         const data = onSnapshot(q, (snapshot) => {
 
             setPosts(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            console.log(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
         })
 
         return data;
     }, [])
 
-    /*const createUser = async () => {
-        console.log(name + age)
-        await addDoc(userscCollectionRef, { name: name, age: age })
-    }*/
 
     const logOut = async () => {
         dispatch({ type: "LOGOUT" })

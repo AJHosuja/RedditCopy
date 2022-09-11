@@ -2,6 +2,7 @@ import Content from "./componets/Content";
 import Navbar from "./componets/navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SubmitPost from "./componets/submitPost/SubmitPost";
+import PostWithComments from "./componets/postWithComments.jsx/PostWithComments";
 
 
 
@@ -19,6 +20,9 @@ function App() {
         <SubmitPost />
       } />
 
+      <Route path="/post/:postID" element= {
+        <PostWithComments />
+      } />
     </Routes>
     </Router>
   );

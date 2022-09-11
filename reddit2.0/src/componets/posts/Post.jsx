@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { collection, doc, getDocs, addDoc, query, orderBy, onSnapshot, where, getDoc } from 'firebase/firestore'
 import { db } from '../../firebasecfg';
 import { Link } from 'react-router-dom'
+import moment from 'moment';
 
 const data = {
     id: 1,
@@ -17,10 +18,14 @@ const data = {
     upVotes: 120,
 }
 
-const Post = ({ postData }) => {
+const Post = ({ postData, withComments }) => {
 
     const [subRedditData, setSubRedditData] = useState([]);
     const [userName, setUserName] = useState("");
+    const [timeAgo, setTimeAgo] = useState("");
+    const [comments, setComments] = useState(withComments)
+    const [likesCount, setLikesCount] = useState(0);
+    const [commentCount, setCommentCount] = useState(0)
 
     const getSubRedditName = async () => {
         const data = await getDoc(doc(db, "subreddits", postData.subredditID));
@@ -40,49 +45,75 @@ const Post = ({ postData }) => {
         return data;
     }
 
+    const likes = async () => {
+        const data = onSnapshot(query(collection(db, "likes"), where("postID", "==", postData.id)), (snapshot) => {
+            setLikesCount(snapshot.size);
+        })
+
+        return data;
+    }
+
+    const downLikes = async () => {
+        const data = onSnapshot(query(collection(db, "downLike"), where("postID", "==", postData.id)), (snapshot) => {
+
+        })
+        return data;
+    }
+
+    const howManyComments = async () => {
+        const data = onSnapshot(query(collection(db, "comments"), where("postID", "==", postData.id)), (snapshot) => {
+            setCommentCount(snapshot.size);
+        })
+
+        return data;
+    }
+
 
     useEffect(() => {
         getSubRedditName()
         getUserName()
+        likes()
+        downLikes()
+        howManyComments()
+        setTimeAgo(moment(postData.timestamp.toDate()).fromNow())
     }, [])
 
     return (
-        <div className='bg-white 
-        mx-4
-        lg:w-8/12 mt-5 rounded
-        border 
-        lg:max-w-[700px]
-        border-gray-300
-        hover:border-gray-700'>
+        <div className={!comments ? "bg-white mx-4 lg:w-8/12 mt-5 roundedborder lg:max-w-[700px] border-gray-300 hover:border-gray-700" :
+            "bg-white max-h-[280px] mx-4 lg:w-8/12 mt-5 roundedborder lg:max-w-[700px] border-gray-300 hover:border-gray-700"
+        }>
             <div className='flex'>
-                <div className='text-sm ml-3 mt-2'>
-                    <ChevronUpIcon />
-                    {data.upVotes}
-                    <ChevronDownIcon />
+                <div className='flex flex-col items-center text-sm ml-3 mt-2'>
+                    <ChevronUpIcon className='h-6 rounded cursor-pointer hover:bg-gray-300' />
+                    {likesCount}
+                    <ChevronDownIcon className='h-6' />
                 </div>
-                <div>
+                <Link to={!comments && "/post/" + postData.id} className={comments ? "cursor-default w-full" : "cursor-pointer w-full"}>
                     <div>
-                        <div className='flex text-xs mt-2 pl-3 space-x-2 items-center'>
-                            <img src={subRedditData.imgUrl} className='w-6 rounded-full' />
-                            <p><strong>r/{subRedditData.name}</strong> posted by u/{subRedditData.username}</p>
-                        </div>
-                        <div className='mt-2 pl-3'>
-                            <strong>{postData.title}</strong>
-                        </div>
-                        <div className='mt-2 pl-3 text-gray-600 text-[14px]'>
-                            <p>{postData.text}</p>
-                        </div>
-                        <div className='flex my-3 ml-3 items-center text-gray-500 text-sm'>
-                            <ChatBubbleLeftIcon className='h-5' />
-                            <strong>{data.comments} Comments</strong>
-                            <ArrowUpRightIcon className='h-5 ml-5' />
-                            <strong>Share</strong>
-                            <BookmarkIcon className='h-5 ml-5' />
-                            <strong>Save</strong>
-                            <EllipsisHorizontalIcon className='h-5 ml-5' />
+                        <div>
+                            <div className='flex text-xs mt-2 pl-3 space-x-2 items-center'>
+                                <img src={subRedditData.imgUrl} className='w-6 rounded-full' />
+                                <p><strong>r/{subRedditData.name}</strong> posted by u/{userName}</p>
+                                <p>{timeAgo}</p>
+                            </div>
+                            <div className='mt-2 pl-3'>
+                                <strong>{postData.title}</strong>
+                            </div>
+                            <div className='mt-2 pl-3 max-h-40 text-gray-600 text-[14px] overflow-clip'>
+                                <p>{postData.text}</p>
+                            </div>
+                            <div className='flex flex-1 my-3 ml-3 items-center text-gray-500 text-sm'>
+                                <ChatBubbleLeftIcon className='h-5 mr-2' />
+                                <strong>{commentCount} Comments</strong>
+                                <ArrowUpRightIcon className='h-5 ml-5 mr-2' />
+                                <strong>Share</strong>
+                                <BookmarkIcon className='h-5 ml-5 mr-2' />
+                                <strong>Save</strong>
+                                <EllipsisHorizontalIcon className='h-5 ml-5' />
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Link>
             </div>
         </div>
     )

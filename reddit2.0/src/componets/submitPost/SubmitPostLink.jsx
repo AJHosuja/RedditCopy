@@ -1,6 +1,6 @@
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import React, { useContext, useState, useEffect } from 'react'
 import { AuthContext } from '../../context/AuthReducer';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebasecfg';
 
 const SubmitPostLink = () => {
@@ -24,7 +24,7 @@ const SubmitPostLink = () => {
             const request = await addDoc(collection(db, "posts"), data)
 
             if (request) {
-
+                //// redirect
             }
         }
 
@@ -40,6 +40,7 @@ const SubmitPostLink = () => {
             <div className='m-4'>
                 <input type="url" required className='w-full rounded h-10 pl-4 border hover:border-black focus:border-black'
                     placeholder='URL'
+                    onChange={(e) => { setUrl(e.target.value) }}
                 />
             </div>
 

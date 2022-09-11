@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { collection, doc, getDocs, addDoc, query, orderBy, onSnapshot, where, getDoc } from 'firebase/firestore'
 import { db } from '../../firebasecfg';
 import { Link } from 'react-router-dom'
+import moment from 'moment';
 
 const data = {
     id: 1,
@@ -20,7 +21,9 @@ const data = {
 const PostWithImage = ({ postData }) => {
     const [subRedditData, setSubRedditData] = useState([]);
     const [userName, setUserName] = useState("");
-
+    const [timeAgo, setTimeAgo] = useState("");
+    const [likesCount, setLikesCount] = useState(0);
+    const [commentCount, setCommentCount] = useState(0)
 
 
     const getSubRedditName = async () => {
@@ -41,10 +44,38 @@ const PostWithImage = ({ postData }) => {
         return data;
     }
 
+    const likes = async () => {
+        const data = onSnapshot(query(collection(db, "likes"), where("postID", "==", postData.id)), (snapshot) => {
+            setLikesCount(snapshot.size);
+        })
+
+        return data;
+    }
+
+    const downLikes = async () => {
+        const data = onSnapshot(query(collection(db, "downLike"), where("postID", "==", postData.id)), (snapshot) => {
+
+        })
+        return data;
+    }
+
+    const howManyComments = async () => {
+        const data = onSnapshot(query(collection(db, "comments"), where("postID", "==", postData.id)), (snapshot) => {
+            setCommentCount(snapshot.size);
+        })
+
+        return data;
+    }
+
+
 
     useEffect(() => {
         getSubRedditName()
         getUserName()
+        likes()
+        downLikes()
+        howManyComments()
+        setTimeAgo(moment(postData.timestamp.toDate()).fromNow())
     }, [])
 
     return (
@@ -56,17 +87,18 @@ const PostWithImage = ({ postData }) => {
         border-gray-300
         hover:border-gray-700'>
             <div className='flex'>
-                <div className='text-sm ml-3 mt-2'>
-                    <ChevronUpIcon />
-                    {data.upVotes}
-                    <ChevronDownIcon />
+                <div className='flex flex-col items-center text-sm ml-3 mt-2'>
+                    <ChevronUpIcon className='h-6' />
+                    {likesCount}
+                    <ChevronDownIcon className='h-6' />
                 </div>
                 <div>
-                    <Link to={"/"} >
+                    <Link to={"/post/" + postData.id}>
                         <div>
                             <div className='flex text-xs mt-2 pl-3 space-x-2 items-center'>
                                 <img src={subRedditData.imgUrl} className='w-6 rounded-full' />
                                 <p><strong>r/{subRedditData.name}</strong> posted by u/{userName}</p>
+                                <p>{timeAgo}</p>
                             </div>
                             <div className='mt-2 pl-3'>
                                 <strong>{postData.title}</strong>
@@ -76,7 +108,7 @@ const PostWithImage = ({ postData }) => {
                             </div>
                             <div className='flex my-3 ml-3 items-center text-gray-500 text-sm'>
                                 <ChatBubbleLeftIcon className='h-5  mr-2' />
-                                <strong>{data.comments} Comments</strong>
+                                <strong>{commentCount} Comments</strong>
                                 <ArrowUpRightIcon className='h-5 ml-5  mr-2' />
                                 <strong>Share</strong>
                                 <BookmarkIcon className='h-5 ml-5 mr-2' />
