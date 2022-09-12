@@ -13,7 +13,6 @@ const Content = () => {
     const [posts, setPosts] = useState([]);
     const [isLogged, setIslogged] = useState(false)
     const { currentUser } = useContext(AuthContext)
-    //const userscCollectionRef = 
 
     const { dispatch } = useContext(AuthContext)
 
@@ -43,7 +42,6 @@ const Content = () => {
             <button onClick={logOut}>Logout</button>
             {isLogged && <AddPost />}
             {posts.map((postData, index) => {
-                console.log(postData)
                 if (postData.type === "urlWithTitle") {
                     return (
                         <PostWithUrl key={index} postData={postData} />

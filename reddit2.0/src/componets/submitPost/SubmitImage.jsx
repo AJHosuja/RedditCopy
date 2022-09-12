@@ -70,7 +70,6 @@ const SubmitImage = () => {
 
             const request = await addDoc(collection(db, "posts"), data)
 
-            console.log(request)
         }
 
     }
