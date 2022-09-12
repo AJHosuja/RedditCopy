@@ -3,8 +3,10 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebasecfg';
 import { AuthContext } from '../context/AuthReducer';
+import { getDoc, doc } from 'firebase/firestore'
+import { db } from '../firebasecfg';
 
-const LogIn = ({ setLogIn, setShowLogIn }) => {
+const LogIn = ({ setShowLogIn }) => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -20,11 +22,22 @@ const LogIn = ({ setLogIn, setShowLogIn }) => {
         e.preventDefault();
 
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
                 const user = userCredential.user;
-                console.log(userCredential)
-                setLogIn(true)
-                dispatch({ type: "LOGIN", payload: user })
+
+                const query = doc(db, "users", user.uid);
+                const requestData = await getDoc(query);
+                const filteredRequestData = requestData.data()
+
+                const payload = {
+                    ...user,
+                    userImg: filteredRequestData.img,
+                    userName: filteredRequestData.Username
+                }
+
+                console.log(payload)
+
+                dispatch({ type: "LOGIN", payload: payload })
                 setShowLogIn(false)
             })
             .catch((error) => {
@@ -52,7 +65,7 @@ const LogIn = ({ setLogIn, setShowLogIn }) => {
                     <button type='submit' className='bg-blue-500 rounded-lg text-white'>Log In</button>
                 </form>
 
-                <XMarkIcon className='absolute w-10 right-10 top-10 cursor-pointer' onClick={() => setLogIn(false)} />
+                <XMarkIcon className='absolute w-10 right-10 top-10 cursor-pointer' onClick={() => setShowLogIn(false)} />
             </div>
         </div>
     )

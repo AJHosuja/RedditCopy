@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ChevronDownIcon, HomeIcon } from '@heroicons/react/24/solid'
-import { MagnifyingGlassIcon, BellIcon, PlusIcon, SparklesIcon, VideoCameraIcon, GlobeAltIcon, ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, BellIcon, PlusIcon, SparklesIcon, VideoCameraIcon, GlobeAltIcon, ChatBubbleOvalLeftEllipsisIcon, ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 import logo from "../../assets/reddit-logo.png"
 import LogIn from '../LogIn'
 import { AuthContext } from '../../context/AuthReducer'
@@ -12,7 +12,7 @@ const Navbar = () => {
     const [showSingUp, setShowSingUp] = useState(false)
     const { currentUser } = useContext(AuthContext)
     const [isLogged, setIslogged] = useState(false)
-
+    const { dispatch } = useContext(AuthContext)
 
     useState(() => {
         if (currentUser) {
@@ -20,20 +20,18 @@ const Navbar = () => {
         }
     }, [currentUser])
 
+    const logOut = () => {
+        dispatch({ type: "LOGOUT" })
+    }
+
 
     return (
         <>
             <div className='sticky top-0 z-10 flex px-4 py-2 shadow-lg bg-white'>
-                <div className='relative h-10 w-24 flex-shrink-0 cursor-pointer '>
+                <div className='relative h-10 w-24 flex-shrink-0 cursor-pointer mr-4 lg:mr-20 '>
                     <Link to={"/"}>
                         <img src={logo} />
                     </Link>
-                </div>
-
-                <div className='mx-7 flex items-center xl:min-w-[300px]'>
-                    <HomeIcon className='w-5 h-5' />
-                    <p className='flex-1 ml-2 hidden lg:inline'>Home</p>
-                    <ChevronDownIcon className='w-5 h-5' />
                 </div>
 
                 <form className='flex items-center flex-1 space-x-2 border
@@ -46,17 +44,14 @@ const Navbar = () => {
                     <input type="text" placeholder='Search Reddit' className='flex-1 bg-gray-200 outline-none' />
                     <button type="submit" hidden />
                 </form>
-                {isLogged ?
+                {currentUser ?
                     <div className='items-center text-gray-600 space-x-2
-                mx-5 hidden lg:inline-flex
-                '>
-                        <SparklesIcon className='h-7 w-5 lg:w-8 cursor-pointer rounded-sm lg lg:hover:bg-gray-300' />
-                        <GlobeAltIcon className='h-7 w-5 lg:w-8 cursor-pointer rounded-sm lg lg:hover:bg-gray-300' />
-                        <BellIcon className='h-7 w-5 lg:w-8 cursor-pointer rounded-sm lg lg:hover:bg-gray-300' />
-                        <hr className='h-10 border border-gray-100' />
-                        <ChatBubbleOvalLeftEllipsisIcon className='h-7 w-5 lg:w-8 cursor-pointer rounded-sm lg lg:hover:bg-gray-300' />
-                        <BellIcon className='h-7 w-5 lg:w-8 cursor-pointer rounded-sm lg lg:hover:bg-gray-300' />
-                        <PlusIcon className='h-7 w-5 lg:w-8 cursor-pointer rounded-sm lg lg:hover:bg-gray-300' />
+                        mx-5 hidden lg:inline-flex
+                        cursor-pointer '
+                        onClick={logOut}
+                    >
+                        <ArrowLeftOnRectangleIcon className='w-4 text-black' />
+                        <p>Log Out</p>
                     </div>
                     :
                     <>
@@ -73,10 +68,10 @@ const Navbar = () => {
                 </div>
             </div>
             {showLogIn &&
-                <LogIn setLogIn={setIslogged} setShowLogIn={setShowLogIn} />
+                <LogIn setShowLogIn={setShowLogIn} />
             }
             {showSingUp &&
-                <SignIn setLogIn={setIslogged} setShowSingUp={setShowSingUp} />
+                <SignIn setShowSingUp={setShowSingUp} />
             }
         </>
     )

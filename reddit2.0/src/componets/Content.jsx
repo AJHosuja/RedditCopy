@@ -16,11 +16,6 @@ const Content = () => {
 
     const { dispatch } = useContext(AuthContext)
 
-    useState(() => {
-        if (currentUser) {
-            setIslogged(true)
-        }
-    }, [currentUser, AuthContext])
 
     useEffect(() => {
         const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
@@ -33,14 +28,9 @@ const Content = () => {
     }, [])
 
 
-    const logOut = async () => {
-        dispatch({ type: "LOGOUT" })
-    }
-
     return (
         <div className='flex-col flex items-center'>
-            <button onClick={logOut}>Logout</button>
-            {isLogged && <AddPost />}
+            {currentUser && <AddPost />}
             {posts.map((postData, index) => {
                 if (postData.type === "urlWithTitle") {
                     return (

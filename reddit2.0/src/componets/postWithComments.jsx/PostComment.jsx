@@ -43,6 +43,7 @@ const PostComment = ({ postData }) => {
                     <form onSubmit={addComment}>
                         <textarea className='w-full h-28 p-4 focus:outline-none '
                             placeholder='What are your thoughts'
+                            disabled={!currentUser}
                             onChange={(e) => setComment(e.target.value)} />
 
                         <div className='flex flex-row-reverse'>

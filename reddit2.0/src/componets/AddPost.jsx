@@ -1,9 +1,10 @@
 import { PhotoIcon } from '@heroicons/react/24/outline'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import testProfilepic from '../assets/testprofile.png'
 import { createEditor } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
+import { AuthContext } from '../context/AuthReducer';
 
 const initialValue = [
     {
@@ -15,6 +16,11 @@ const initialValue = [
 const AddPost = () => {
 
     const [editor] = useState(() => withReact(createEditor()))
+    const { currentUser } = useContext(AuthContext)
+
+    useEffect(() => {
+        console.log(currentUser.userImg)
+    }, [])
 
     return (
         <div className='flex px-4 lg:px-0 w-full justify-center'>
@@ -26,7 +32,7 @@ const AddPost = () => {
             lg:max-w-[700px]
             border-gray-300'>
                 <div className="h-10 w-10 rounded-lg ml-2">
-                    <img src={testProfilepic} className="shadow rounded-full max-w-full h-auto align-middle border-none" />
+                    <img src={currentUser.userImg} className="shadow rounded-full w-10 h-10 align-middle border-none" />
                 </div>
                 <div className='flex-1 ml-4 items-center'>
                     <Link to={"/submit"}>
