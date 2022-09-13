@@ -150,7 +150,7 @@ const Post = ({ postData, withComments }) => {
 
     return (
         <div className={!comments ? "bg-white mx-4 lg:w-8/12 mt-5 roundedborder lg:max-w-[700px] border-gray-300 hover:border-gray-700" :
-            "bg-white max-h-[280px] mx-4 lg:w-8/12 mt-5 roundedborder lg:max-w-[700px] border-gray-300 hover:border-gray-700"
+            "bg-white max-h-[280px] w-[700px] mx-4 mt-5 roundedborder lg:max-w-[700px] border-gray-300 hover:border-gray-700"
         }>
             <div className='flex'>
                 <div className='flex flex-col items-center text-sm ml-3 mt-2'>

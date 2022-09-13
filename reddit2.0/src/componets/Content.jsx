@@ -14,9 +14,6 @@ const Content = () => {
     const [isLogged, setIslogged] = useState(false)
     const { currentUser } = useContext(AuthContext)
 
-    const { dispatch } = useContext(AuthContext)
-
-
     useEffect(() => {
         const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
         const data = onSnapshot(q, (snapshot) => {

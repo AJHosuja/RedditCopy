@@ -163,11 +163,7 @@ const PostWithUrl = ({ postData, withComments }) => {
 
     return (
 
-        <div className='bg-white 
-            mx-4
-            lg:w-8/12 mt-5 rounded
-            border 
-            lg:max-w-[700px]
+        <div className=' bg-white flex mt-4 rounded border w-[calc(100%-20px)] lg:max-w-[700px]
             border-gray-300
             hover:border-gray-700'>
             <div className='flex'>
@@ -205,7 +201,7 @@ const PostWithUrl = ({ postData, withComments }) => {
                 </Link>
 
             </div>
-        </div >
+        </div>
 
     )
 }

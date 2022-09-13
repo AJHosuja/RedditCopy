@@ -2,18 +2,20 @@ import React, { useContext, useState, useEffect } from 'react'
 import { AuthContext } from '../../context/AuthReducer';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebasecfg';
+import { useNavigate } from "react-router-dom"
 
-const SubmitPostLink = () => {
+const SubmitPostLink = ({ subredditID }) => {
     const [title, setTitle] = useState("");
     const [url, setUrl] = useState("");
     const { currentUser } = useContext(AuthContext)
+    const navigate = useNavigate();
 
     const addPost = async (e) => {
         e.preventDefault();
         if (currentUser) {
             const data = {
                 title: title,
-                subredditID: "3WOhjgCbalfuvJQT8jLi",
+                subredditID: subredditID,
                 type: "urlWithTitle",
                 userID: currentUser.uid,
                 url: url,
@@ -23,8 +25,8 @@ const SubmitPostLink = () => {
 
             const request = await addDoc(collection(db, "posts"), data)
 
-            if (request) {
-                //// redirect
+            if (request.id) {
+                navigate("/post/" + request.id);
             }
         }
 

@@ -9,13 +9,15 @@ import {
 import { auth, db, storage } from "../../firebasecfg";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { AuthContext } from '../../context/AuthReducer';
+import { useNavigate } from "react-router-dom"
 
-const SubmitImage = () => {
+const SubmitImage = ({ subredditID }) => {
     const [per, setPerc] = useState(null);
     const [title, setTitle] = useState("");
     const [file, setFile] = useState("");
     const [img, setImg] = useState("");
     const { currentUser } = useContext(AuthContext)
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("Here")
@@ -60,7 +62,7 @@ const SubmitImage = () => {
         if (currentUser) {
             const data = {
                 title: title,
-                subredditID: "3WOhjgCbalfuvJQT8jLi",
+                subredditID: subredditID,
                 type: "imageWithTitle",
                 userID: currentUser.uid,
                 imageurl: img,
@@ -70,6 +72,9 @@ const SubmitImage = () => {
 
             const request = await addDoc(collection(db, "posts"), data)
 
+            if (request.id) {
+                navigate("/post/" + request.id);
+            }
         }
 
     }
