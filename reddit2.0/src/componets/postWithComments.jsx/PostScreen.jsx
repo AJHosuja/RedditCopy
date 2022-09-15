@@ -54,12 +54,13 @@ const PostScreen = ({ postData }) => {
             flex-col
             mb-10
             bg-white 
-            lg:w-8/12  rounded
-            lg:max-w-[700px]'>
+            lg:w-8/12  rounded-b
+            lg:max-w-[700px]
+            w-[calc(100%-32px)]'>
 
                     {commentData.map((comment, index) => {
                         return (
-                            <Comment key={index} commentData={comment} />
+                            <Comment key={index} commentData={comment} className='w-full bg-red-600' />
                         )
                     })}
                 </div>

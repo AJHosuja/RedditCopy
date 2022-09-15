@@ -90,7 +90,7 @@ const SignIn = ({ setLogIn, setShowSingUp }) => {
                     : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} className="w-28 h-28 rounded-full m-10" />
 
                 <div className="flex-1 flex-col">
-                    <h1 className="text-3xl mt-10 font-bold">Sing Up</h1>
+                    <h1 className="text-3xl mt-10 font-bold">Sign Up</h1>
 
                     <div className="flex  mt-10">
                         <label htmlFor="file" className="flex">

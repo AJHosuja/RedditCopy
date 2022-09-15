@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ChevronDownIcon, HomeIcon } from '@heroicons/react/24/solid'
-import { MagnifyingGlassIcon, BellIcon, PlusIcon, SparklesIcon, VideoCameraIcon, GlobeAltIcon, ChatBubbleOvalLeftEllipsisIcon, ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, BellIcon, PlusIcon, SparklesIcon, VideoCameraIcon, GlobeAltIcon, ChatBubbleOvalLeftEllipsisIcon, ArrowLeftOnRectangleIcon, Bars3Icon } from '@heroicons/react/24/outline'
 import logo from "../../assets/reddit-logo.png"
 import LogIn from '../LogIn'
 import { AuthContext } from '../../context/AuthReducer'
@@ -13,6 +13,7 @@ const Navbar = () => {
     const { currentUser } = useContext(AuthContext)
     const [isLogged, setIslogged] = useState(false)
     const { dispatch } = useContext(AuthContext)
+    const [showDrawer, setShowDrawer] = useState(false)
 
     useState(() => {
         if (currentUser) {
@@ -21,6 +22,7 @@ const Navbar = () => {
     }, [currentUser])
 
     const logOut = () => {
+        setShowDrawer(false)
         dispatch({ type: "LOGOUT" })
     }
 
@@ -45,25 +47,67 @@ const Navbar = () => {
                     <button type="submit" hidden />
                 </form>
                 {currentUser ?
-                    <div className='items-center text-gray-600 space-x-2
+                    <>
+                        <div className='hidden lg:flex'>
+                            <div className='items-center text-gray-600 space-x-2
                         mx-5 hidden lg:inline-flex
                         cursor-pointer '
-                        onClick={logOut}
-                    >
-                        <ArrowLeftOnRectangleIcon className='w-4 text-black' />
-                        <p>Log Out</p>
-                    </div>
+                                onClick={logOut}
+                            >
+                                <ArrowLeftOnRectangleIcon className='w-4 text-black' />
+                                <p>Log Out</p>
+                            </div>
+                        </div>
+                        <div className='flex lg:hidden pl-2'>
+                            <Bars3Icon className='w-7 cursor-pointer rounded hover:bg-gray-300'
+                                onClick={() => setShowDrawer(!showDrawer)}
+                            />
+                        </div>
+                    </>
                     :
                     <>
-                        <div className='flex items-center border border-blue-700 w-24 justify-center rounded-full ml-5' onClick={() => setShowLogIn(!showLogIn)}>
-                            <button><strong className='text-blue-600'>Log In</strong></button>
+                        <div className='hidden lg:flex '>
+                            <div className='flex items-center border border-blue-700 w-24 justify-center rounded-full ml-5' onClick={() => setShowLogIn(!showLogIn)}>
+                                <button><strong className='text-blue-600'>Log In</strong></button>
+                            </div>
+                            <div className='flex items-center border border-blue-600 w-24 justify-center rounded-full ml-3 bg-blue-600' onClick={() => setShowSingUp(!showSingUp)}>
+                                <button><strong className='text-white'>Sign Up</strong></button>
+                            </div>
                         </div>
-                        <div className='flex items-center border border-blue-600 w-24 justify-center rounded-full ml-3 bg-blue-600' onClick={() => setShowSingUp(!showSingUp)}>
-                            <button><strong className='text-white'>Sign Up</strong></button>
+                        <div className='flex lg:hidden pl-2'>
+                            <Bars3Icon className='w-7 cursor-pointer rounded hover:bg-gray-300'
+                                onClick={() => setShowDrawer(!showDrawer)}
+                            />
                         </div>
                     </>
 
                 }
+                <div className={`top-14 right-0 w-[35vw] bg-white pt-3 pl-2 pb-4 space-y-5 fixed z-40  ease-in-out duration-500 shadow-2xl ${showDrawer ? "translate-x-0 " : "translate-x-full"
+                    }`
+                }>
+                    {currentUser ? <>
+                        <div className='flex text-gray-600 cursor-pointer text-lg font-medium'
+                            onClick={logOut}>
+                            <ArrowLeftOnRectangleIcon className='w-6 text-black' />
+                            <p>Log Out</p>
+                        </div>
+                    </> :
+                        <>
+                            <div className='cursor-pointer' onClick={() => {
+                                setShowLogIn(!showLogIn)
+                                setShowDrawer(false)
+                            }}>
+                                <p className='text-blue-600 font-bold text-lg'>Log in</p>
+                            </div>
+                            <div className='cursor-pointer' onClick={() => {
+                                setShowSingUp(!showSingUp)
+                                setShowDrawer(false)
+                            }}>
+                                <p className='text-blue-600 font-bold text-lg'>Sign Up</p>
+                            </div>
+                        </>
+                    }
+                </div>
                 <div>
                 </div>
             </div>

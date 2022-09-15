@@ -5,11 +5,13 @@ import { auth } from '../firebasecfg';
 import { AuthContext } from '../context/AuthReducer';
 import { getDoc, doc } from 'firebase/firestore'
 import { db } from '../firebasecfg';
+import bgPicture from '../assets/loginBG.png'
 
 const LogIn = ({ setShowLogIn }) => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [errorText, setErrorText] = useState("")
 
     const { dispatch } = useContext(AuthContext)
 
@@ -20,6 +22,7 @@ const LogIn = ({ setShowLogIn }) => {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        setErrorText("")
 
         signInWithEmailAndPassword(auth, email, password)
             .then(async (userCredential) => {
@@ -41,29 +44,34 @@ const LogIn = ({ setShowLogIn }) => {
                 setShowLogIn(false)
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessafe = error.message;
-                console.log(error)
+                setErrorText("Wrong password or email...")
             })
     }
     return (
         <div className='flex justify-center items-center absolute z-20 top-0 right-0 bottom-0 left-0 h-[100%] bg-black bg-opacity-20'>
-            <div className='flex flex-row relative bg-white w-[700px] h-[700px] rounded-lg justify-center items-center'>
-                <form onSubmit={handleLogin} className='flex flex-col space-y-8'>
-                    <input
-                        placeholder='Email'
-                        name='email'
-                        type="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        className='bg-gray-300 outline-none border border-gray-500 rounded-lg pl-2' />
-                    <input
-                        placeholder='Password'
-                        name='password'
-                        type="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        className='bg-gray-300 outline-none border border-gray-500 rounded-lg pl-2' />
-                    <button type='submit' className='bg-blue-500 rounded-lg text-white'>Log In</button>
-                </form>
+            <div className='flex flex-row relative bg-white w-[650px] h-[650px] rounded-lg  items-center'>
+                <div>
+                    <img src={bgPicture} />
+                </div>
+                <div className='ml-10 flex flex-col space-y-10'>
+                    <h1 className='text-2xl font-semibold'>Log in</h1>
+                    <form onSubmit={handleLogin} className='flex flex-col space-y-6'>
+                        <input
+                            placeholder='Email'
+                            name='email'
+                            type="email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            className='bg-white h-10 outline-none border border-gray-300 rounded pl-3 hover:items' />
+                        <input
+                            placeholder='Password'
+                            name='password'
+                            type="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            className='bg-white h-10 outline-none border border-gray-300 rounded pl-3' />
+                        <p className='text-red-600'>{errorText}</p>
+                        <button type='submit' className='bg-blue-500 h-10 rounded-full text-white text-xl'>Log In</button>
+                    </form>
+                </div>
 
                 <XMarkIcon className='absolute w-10 right-10 top-10 cursor-pointer' onClick={() => setShowLogIn(false)} />
             </div>

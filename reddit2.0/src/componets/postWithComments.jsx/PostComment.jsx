@@ -1,12 +1,13 @@
 import React from 'react'
 import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthReducer';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, getDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebasecfg';
 
 
 const PostComment = ({ postData }) => {
     const [comment, setComment] = useState("");
+    const [userName, setUserName] = useState("");
     const { currentUser } = useContext(AuthContext)
 
     const addComment = async (e) => {
@@ -27,6 +28,18 @@ const PostComment = ({ postData }) => {
 
     }
 
+    const getUserName = async () => {
+
+        const data = await getDoc(doc(db, "users", postData.userID));
+        setUserName(data._document.data.value.mapValue.fields.Username.stringValue)
+
+        return data;
+    }
+
+    useEffect(() => {
+        getUserName()
+    }, [])
+
 
     return (
         <div className='
@@ -38,7 +51,7 @@ const PostComment = ({ postData }) => {
         lg:max-w-[700px]
         border-gray-300'>
             <div className='px-10 py-5'>
-                <p>Comment as <strong>AJ</strong></p>
+                <p>Comment as <strong>{userName}</strong></p>
                 <div className='flex flex-col p-1 border border-gray-400 rounded focus-within:border-black'>
                     <form onSubmit={addComment}>
                         <textarea className='w-full h-28 p-4 focus:outline-none '
