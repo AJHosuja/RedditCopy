@@ -34,6 +34,16 @@ npm start
 
 ## Screenshots
 
+![image](https://user-images.githubusercontent.com/93617192/192387839-2a43d7af-f2c1-4d27-9add-96bca66d05d6.png)
+
+![image](https://user-images.githubusercontent.com/93617192/192387900-14e57997-8c47-4e88-b8ca-d8bbf78eff0b.png)
+
+![image](https://user-images.githubusercontent.com/93617192/192387969-8e064660-2141-48e5-8b07-430eeb8e5729.png)
+
+![image](https://user-images.githubusercontent.com/93617192/192388082-87dd713d-0722-4637-9f75-abd12fa1ce79.png)
+
+![image](https://user-images.githubusercontent.com/93617192/192388154-e941607c-d95d-46f1-aaf8-8402ded5b713.png)
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
