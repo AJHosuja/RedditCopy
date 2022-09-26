@@ -1,6 +1,6 @@
 # Reddit Clone
 
-GitHub readme about the project of cloning reddit.
+GitHub readme about the project of cloning reddit. https://reddit-copy-ruby.vercel.app/submit
 
 ## Installation and Usage
 
