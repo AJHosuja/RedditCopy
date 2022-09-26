@@ -1,23 +1,27 @@
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react'
 import {
     addDoc,
     collection,
     doc,
     serverTimestamp,
     setDoc,
+    getDoc
 } from "firebase/firestore";
 import { auth, db, storage } from "../../src/firebasecfg";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
+import { AuthContext } from '../context/AuthReducer';
 
 
 const SignIn = ({ setLogIn, setShowSingUp }) => {
     const [file, setFile] = useState("");
     const [data, setData] = useState({});
     const [per, setPerc] = useState(null);
+
+    const { dispatch } = useContext(AuthContext)
 
     useEffect(() => {
         const uploadFile = () => {
@@ -98,7 +102,6 @@ const SignIn = ({ setLogIn, setShowSingUp }) => {
                     setShowSingUp(false)
                 })
                 .catch((error) => {
-                    setErrorText("Wrong password or email...")
                 })
 
         } catch (err) {
