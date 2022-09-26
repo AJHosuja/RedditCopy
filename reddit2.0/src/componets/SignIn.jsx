@@ -77,6 +77,30 @@ const SignIn = ({ setLogIn, setShowSingUp }) => {
                 ...data,
                 timeStamp: serverTimestamp(),
             });
+
+            signInWithEmailAndPassword(auth, data.email, data.password)
+                .then(async (userCredential) => {
+                    const user = userCredential.user;
+
+                    const query = doc(db, "users", user.uid);
+                    const requestData = await getDoc(query);
+                    const filteredRequestData = requestData.data()
+
+                    const payload = {
+                        ...user,
+                        userImg: filteredRequestData.img,
+                        userName: filteredRequestData.Username
+                    }
+
+                    console.log(payload)
+
+                    dispatch({ type: "LOGIN", payload: payload })
+                    setShowSingUp(false)
+                })
+                .catch((error) => {
+                    setErrorText("Wrong password or email...")
+                })
+
         } catch (err) {
             console.log("user already exist");
         }
