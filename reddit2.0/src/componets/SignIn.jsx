@@ -148,7 +148,7 @@ const SignIn = ({ setLogIn, setShowSingUp }) => {
                             </div>
                             <div className="flex justify-center mt-10">
                                 <button disabled={per !== null && per < 100} type="submit" className="border border-blue-600 w-60 h-10 justify-center rounded-full ml-3 bg-blue-600 text-white">
-                                    Sing Up
+                                    Sign Up
                                 </button>
                             </div>
                         </form>
