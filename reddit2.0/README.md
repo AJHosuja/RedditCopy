@@ -44,6 +44,7 @@ npm start
 
 ![image](https://user-images.githubusercontent.com/93617192/192388154-e941607c-d95d-46f1-aaf8-8402ded5b713.png)
 
+![image](https://user-images.githubusercontent.com/93617192/192388503-ac8a0066-5d90-46ad-919d-0308b7e487e0.png)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
