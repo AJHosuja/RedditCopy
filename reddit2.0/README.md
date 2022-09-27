@@ -34,6 +34,8 @@ npm start
 
 ## Screenshots
 
+<img src="https://user-images.githubusercontent.com/93617192/192387839-2a43d7af-f2c1-4d27-9add-96bca66d05d6.png" width="100">
+
 ![image](https://user-images.githubusercontent.com/93617192/192387839-2a43d7af-f2c1-4d27-9add-96bca66d05d6.png | width=100)
 
 ![image](https://user-images.githubusercontent.com/93617192/192387900-14e57997-8c47-4e88-b8ca-d8bbf78eff0b.png | width=100)
